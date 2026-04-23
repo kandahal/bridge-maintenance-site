@@ -3,10 +3,1417 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>橋梁メンテナンスサイト</title>
+  <title>橋梁メンテナンス支援 | 倉爽合同会社</title>
+  <meta name="description" content="倉爽合同会社は岡山を拠点に、橋梁点検・調査・補修設計・維持管理計画など、橋梁メンテナンス全般の技術支援を行う会社です。">
+  <style>
+    /* ===========================
+       リセット・基本設定
+    =========================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy:       #1a2d4e;
+      --navy-light: #243d65;
+      --blue:       #2e6da4;
+      --blue-mid:   #3a7fbf;
+      --blue-light: #d6e9f8;
+      --sky:        #eaf4fd;
+      --gray-dark:  #3d4554;
+      --gray:       #6b7280;
+      --gray-light: #e5e9f0;
+      --white:      #ffffff;
+      --accent:     #e07b2a;
+      --text:       #1f2937;
+      --text-sub:   #4b5563;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ===========================
+       共通ユーティリティ
+    =========================== */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      max-width: 640px;
+      line-height: 1.9;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+    }
+
+    /* アニメーション */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in.delay-1 { transition-delay: 0.1s; }
+    .fade-in.delay-2 { transition-delay: 0.2s; }
+    .fade-in.delay-3 { transition-delay: 0.3s; }
+    .fade-in.delay-4 { transition-delay: 0.4s; }
+
+    /* ===========================
+       ヘッダー
+    =========================== */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(26, 45, 78, 0.97);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: box-shadow 0.3s;
+    }
+    #header.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .logo-main {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .logo-sub {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.1em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    nav a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+    }
+    nav a:hover {
+      color: var(--white);
+      border-bottom-color: rgba(255,255,255,0.4);
+    }
+
+    .nav-contact-btn {
+      background: var(--blue-mid);
+      color: var(--white) !important;
+      padding: 8px 18px !important;
+      border-radius: 4px;
+      border-bottom: none !important;
+      transition: background 0.2s !important;
+    }
+    .nav-contact-btn:hover {
+      background: var(--blue) !important;
+    }
+
+    /* ハンバーガー */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* スマホメニュー */
+    #mobile-menu {
+      display: none;
+      background: var(--navy);
+      padding: 16px 24px 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    #mobile-menu a {
+      display: block;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    #mobile-menu a:last-child { border-bottom: none; }
+
+    /* ===========================
+       ヒーローセクション
+    =========================== */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy) 0%, #1c3a62 50%, #1f4a7a 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 64px;
+    }
+
+    /* 構造物をイメージする幾何学的背景装飾 */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: 10%;
+      width: 560px;
+      height: 560px;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      right: 40px;
+      top: 15%;
+      width: 400px;
+      height: 400px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 50%;
+    }
+
+    /* 橋のシルエット風装飾 */
+    .bridge-deco {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      pointer-events: none;
+    }
+    .bridge-deco svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* グリッドライン背景 */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 60px 0 200px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      padding: 5px 14px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: #7fc8f0;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      color: rgba(255,255,255,0.7);
+      max-width: 540px;
+      line-height: 2;
+      margin-bottom: 40px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover {
+      background: #c96d20;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      padding: 14px 32px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.7);
+    }
+
+    /* スクロール誘導 */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      z-index: 2;
+    }
+    .scroll-arrow {
+      width: 18px;
+      height: 28px;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 10px;
+      position: relative;
+    }
+    .scroll-arrow::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 6px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 2px;
+      animation: scrollDot 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollDot {
+      0%, 100% { opacity: 1; top: 5px; }
+      50% { opacity: 0; top: 14px; }
+    }
+
+    /* ===========================
+       サービス紹介
+    =========================== */
+    #services {
+      background: var(--white);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      padding: 32px 28px;
+      transition: box-shadow 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 32px rgba(30,60,100,0.12);
+      transform: translateY(-3px);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--blue-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .service-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .service-card p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.85;
+    }
+
+    /* ===========================
+       強み
+    =========================== */
+    #strengths {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    #strengths::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    #strengths .section-label { color: #7fc8f0; }
+    #strengths .section-title { color: var(--white); }
+    #strengths .section-desc { color: rgba(255,255,255,0.65); }
+
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .strength-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 8px;
+      padding: 32px 28px;
+      transition: background 0.25s;
+    }
+    .strength-item:hover {
+      background: rgba(255,255,255,0.09);
+    }
+
+    .strength-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: rgba(127,200,240,0.35);
+      line-height: 1;
+      margin-bottom: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    .strength-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .strength-item p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.9;
+    }
+
+    /* ===========================
+       対応分野
+    =========================== */
+    #coverage {
+      background: var(--sky);
+    }
+
+    .coverage-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid rgba(46,109,164,0.2);
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .tag:hover {
+      border-color: var(--blue-mid);
+      box-shadow: 0 4px 12px rgba(46,109,164,0.12);
+    }
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--blue-mid);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ===========================
+       業務の流れ
+    =========================== */
+    #flow {
+      background: var(--white);
+    }
+
+    .flow-steps {
+      position: relative;
+    }
+
+    .flow-line {
+      position: absolute;
+      left: 28px;
+      top: 28px;
+      bottom: 28px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--blue-light), var(--blue-mid));
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 24px;
+      padding: 0 0 36px 0;
+      position: relative;
+    }
+    .flow-step:last-child { padding-bottom: 0; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 12px rgba(46,109,164,0.3);
+    }
+
+    .step-body {
+      flex: 1;
+      padding-top: 12px;
+    }
+    .step-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .step-body p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.85;
+    }
+
+    /* ===========================
+       会社概要
+    =========================== */
+    #about {
+      background: var(--gray-light);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .about-table tr {
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .about-table tr:last-child {
+      border-bottom: none;
+    }
+    .about-table th {
+      width: 130px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-align: left;
+      padding: 14px 0;
+      vertical-align: top;
+    }
+    .about-table td {
+      font-size: 0.88rem;
+      color: var(--text);
+      padding: 14px 0;
+      line-height: 1.7;
+    }
+
+    .about-map {
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--gray-light);
+    }
+    .map-placeholder {
+      height: 220px;
+      background: linear-gradient(135deg, #e8f0f8 0%, #d4e6f5 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--blue);
+    }
+    .map-placeholder svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .map-placeholder p {
+      font-size: 0.82rem;
+      color: var(--gray);
+    }
+    .map-info {
+      padding: 20px 24px;
+    }
+    .map-info p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.8;
+    }
+    .map-info strong {
+      color: var(--navy);
+    }
+
+    /* ===========================
+       お問い合わせ
+    =========================== */
+    #contact {
+      background: linear-gradient(135deg, #1a2d4e 0%, #1c3a62 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    #contact .section-label { color: #7fc8f0; }
+    #contact .section-title { color: var(--white); }
+    #contact .section-desc { color: rgba(255,255,255,0.65); }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .contact-info {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+      line-height: 1.9;
+    }
+    .contact-info h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .contact-info p { margin-bottom: 8px; }
+
+    .contact-email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .contact-email-link:hover {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .contact-form {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 36px 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 7px;
+      letter-spacing: 0.05em;
+    }
+    .form-group label .req {
+      color: #f87171;
+      margin-left: 4px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      padding: 10px 14px;
+      color: var(--white);
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(127,200,240,0.5);
+    }
+    .form-group select option {
+      background: var(--navy);
+    }
+    .form-group textarea {
+      height: 110px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      padding: 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-submit:hover {
+      background: #c96d20;
+    }
+
+    .form-note {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 12px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* ===========================
+       フッター
+    =========================== */
+    footer {
+      background: #101d30;
+      color: rgba(255,255,255,0.5);
+      padding: 40px 0 32px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-logo-main {
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 6px;
+    }
+    .footer-logo-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-nav a {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: rgba(255,255,255,0.85); }
+
+    .footer-copy {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px;
+      font-size: 0.75rem;
+      text-align: center;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===========================
+       レスポンシブ
+    =========================== */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+
+      .section { padding: 56px 0; }
+      .section-header { margin-bottom: 36px; }
+
+      .hero-content { padding-bottom: 160px; }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .strengths-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .contact-form {
+        padding: 24px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .footer-nav {
+        gap: 16px;
+      }
+
+      .flow-line { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; }
+      .about-table th { width: 100px; font-size: 0.78rem; }
+    }
+  </style>
 </head>
 <body>
-  <h1>橋梁メンテナンスサイト</h1>
-  <p>GitHub Pagesのテスト公開です。</p>
+
+  <!-- ===========================
+       ヘッダー
+  =========================== -->
+  <header id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <span class="logo-main">倉爽合同会社</span>
+          <span class="logo-sub">KURASOU LLC. — BRIDGE MAINTENANCE</span>
+        </a>
+        <nav id="main-nav">
+          <a href="#services">技術支援サービス</a>
+          <a href="#strengths">特徴</a>
+          <a href="#about">会社概要</a>
+          <a href="#contact" class="nav-contact-btn">お問い合わせ</a>
+        </nav>
+        <button class="hamburger" id="hamburger-btn" aria-label="メニューを開く">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu">
+      <a href="#services">技術支援サービス</a>
+      <a href="#strengths">特徴</a>
+      <a href="#coverage">対応分野</a>
+      <a href="#flow">業務の流れ</a>
+      <a href="#about">会社概要</a>
+      <a href="#contact">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- ===========================
+       ヒーロー
+  =========================== -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <!-- 橋のシルエット風装飾 -->
+    <div class="bridge-deco">
+      <svg viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 橋桁ライン -->
+        <line x1="0" y1="90" x2="1440" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+        <!-- 橋脚 -->
+        <rect x="200" y="90" width="8" height="90" fill="rgba(255,255,255,0.05)"/>
+        <rect x="480" y="90" width="8" height="90" fill="rgba(255,255,255,0.05)"/>
+        <rect x="760" y="90" width="8" height="90" fill="rgba(255,255,255,0.05)"/>
+        <rect x="1040" y="90" width="8" height="90" fill="rgba(255,255,255,0.05)"/>
+        <rect x="1280" y="90" width="8" height="90" fill="rgba(255,255,255,0.05)"/>
+        <!-- ケーブル風ライン -->
+        <line x1="200" y1="90" x2="340" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="480" y1="90" x2="340" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="480" y1="90" x2="620" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="760" y1="90" x2="620" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="760" y1="90" x2="900" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="1040" y1="90" x2="900" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="1040" y1="90" x2="1160" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <line x1="1280" y1="90" x2="1160" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+        <!-- フェード -->
+        <rect x="0" y="0" width="1440" height="180" fill="url(#heroFade)"/>
+        <defs>
+          <linearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="100%" stop-color="#1a2d4e"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label fade-in">BRIDGE MAINTENANCE SUPPORT</div>
+        <h1 class="hero-title fade-in delay-1">
+          橋の今を正確に診て、<br>
+          <em>安全な明日</em>をつくる。
+        </h1>
+        <p class="hero-sub fade-in delay-2">
+          倉爽合同会社は、橋梁の点検・調査から補修設計支援・維持管理計画まで、<br>
+          メンテナンスサイクル全体を通じて建設コンサルタントを技術的にサポートします。<br>
+          自治体・公共発注者が安心できる、確かな技術と丁寧な対応を大切にしています。
+        </p>
+        <div class="hero-btns fade-in delay-3">
+          <a href="#contact" class="btn-primary">お問い合わせ</a>
+          <a href="#services" class="btn-outline">サービスを見る</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-arrow"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ===========================
+       サービス紹介
+  =========================== -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">SERVICES</span>
+        <h2 class="section-title">技術支援サービス</h2>
+        <p class="section-desc">
+          橋梁メンテナンスを担う建設コンサルタント・調査会社の皆さまに向けて、
+          点検・設計・計画・新技術の各段階で専門的な技術支援を提供します。
+        </p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card fade-in delay-1">
+          <div class="service-icon">
+            <!-- 虫眼鏡アイコン -->
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          </div>
+          <h3>橋梁点検・調査の技術支援</h3>
+          <p>近接目視点検、打音検査、非破壊検査など各種点検手法に関する技術的サポートを行います。点検記録の整理・判定補助から報告書作成支援まで対応します。</p>
+        </div>
+
+        <div class="service-card fade-in delay-2">
+          <div class="service-icon">
+            <!-- ドキュメントアイコン -->
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+          </div>
+          <h3>補修設計の技術支援</h3>
+          <p>損傷状況の分析・劣化原因の把握をもとに、効果的な補修工法の選定と設計業務を技術的にサポートします。道路橋示方書・維持管理指針への適合性確認も対応します。</p>
+        </div>
+
+        <div class="service-card fade-in delay-3">
+          <div class="service-icon">
+            <!-- カレンダーアイコン -->
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>維持管理計画の技術支援</h3>
+          <p>点検データの蓄積・分析にもとづく中長期的な維持管理計画の策定支援を行います。予防保全的観点からの優先順位付けや費用シミュレーションにも対応します。</p>
+        </div>
+
+        <div class="service-card fade-in delay-4">
+          <div class="service-icon">
+            <!-- ドローン風アイコン -->
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10v-2m0 6v2m-4-4H6m6 0h2M6.34 6.34l1.42 1.42M16.24 16.24l1.42 1.42M6.34 17.66l1.42-1.42M16.24 7.76l1.42-1.42"/></svg>
+          </div>
+          <h3>新技術活用の技術支援</h3>
+          <p>ドローン点検・画像AI解析・3次元計測など、点検効率化・省力化に向けた新技術の導入検討から現場適用まで、実務的な視点でサポートします。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       強み
+  =========================== -->
+  <section id="strengths" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">OUR STRENGTHS</span>
+        <h2 class="section-title">倉爽合同会社の特徴</h2>
+        <p class="section-desc">
+          橋梁メンテナンスの現場に長く携わった知見と、最新技術への柔軟な対応力を組み合わせ、
+          実務に役立つ技術支援を提供します。
+        </p>
+      </div>
+      <div class="strengths-grid">
+
+        <div class="strength-item fade-in delay-1">
+          <div class="strength-num">01</div>
+          <h3>橋梁メンテナンスに特化した技術力</h3>
+          <p>
+            橋梁点検・調査・補修設計・維持管理の各段階に精通した専門的な知識をベースに、
+            実務レベルでの技術支援を行います。道路橋・歩道橋・鋼橋・RC構造物など多様な橋種に対応します。
+          </p>
+        </div>
+
+        <div class="strength-item fade-in delay-2">
+          <div class="strength-num">02</div>
+          <h3>維持管理サイクルを見通した総合的な提案</h3>
+          <p>
+            単発の点検支援にとどまらず、点検→判定→補修→計画というメンテナンスサイクル全体を
+            見据えた提案ができる点が強みです。長期的な視点での効果的なメンテナンスを支援します。
+          </p>
+        </div>
+
+        <div class="strength-item fade-in delay-3">
+          <div class="strength-num">03</div>
+          <h3>新技術の現場導入をサポート</h3>
+          <p>
+            ドローン・画像AI・非破壊検査など新技術の実務的な活用方法を検討し、
+            点検の効率化・省力化・データ活用を具体的に支援します。
+            自治体や発注者への説明資料作成も対応します。
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       対応分野
+  =========================== -->
+  <section id="coverage" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">COVERAGE</span>
+        <h2 class="section-title">対応分野・構造物の種別</h2>
+        <p class="section-desc">
+          道路橋・歩道橋・農道橋など、公共インフラを幅広くカバーします。
+          各種構造形式・材料・工法に対応した技術支援が可能です。
+        </p>
+      </div>
+      <div class="coverage-tags fade-in">
+        <div class="tag"><span class="tag-dot"></span>道路橋</div>
+        <div class="tag"><span class="tag-dot"></span>歩道橋</div>
+        <div class="tag"><span class="tag-dot"></span>農道橋・林道橋</div>
+        <div class="tag"><span class="tag-dot"></span>鋼橋（桁橋・トラス橋）</div>
+        <div class="tag"><span class="tag-dot"></span>RC橋・PC橋</div>
+        <div class="tag"><span class="tag-dot"></span>コンクリート構造物</div>
+        <div class="tag"><span class="tag-dot"></span>橋台・橋脚</div>
+        <div class="tag"><span class="tag-dot"></span>落橋防止装置</div>
+        <div class="tag"><span class="tag-dot"></span>排水・伸縮装置</div>
+        <div class="tag"><span class="tag-dot"></span>ボックスカルバート</div>
+        <div class="tag"><span class="tag-dot"></span>横断歩道橋</div>
+        <div class="tag"><span class="tag-dot"></span>函渠構造物</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       業務の流れ
+  =========================== -->
+  <section id="flow" class="section" style="background: var(--white);">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">WORKFLOW</span>
+        <h2 class="section-title">業務の流れ</h2>
+        <p class="section-desc">
+          お問い合わせから実務支援まで、丁寧にご対応します。
+          まずは現状と課題をお気軽にご相談ください。
+        </p>
+      </div>
+
+      <div style="max-width: 680px; position: relative;">
+        <div class="flow-line"></div>
+        <div class="flow-steps">
+
+          <div class="flow-step fade-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>ご相談・現状把握</h3>
+              <p>橋梁の点検状況・課題・対象構造物などをヒアリングします。点検結果の資料があればご共有ください。初回ご相談は無料で対応します。</p>
+            </div>
+          </div>
+
+          <div class="flow-step fade-in delay-1">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>点検・調査結果の技術的判定支援</h3>
+              <p>損傷状況の整理・健全性評価・損傷原因の推定など、点検結果の技術的な判定・整理を支援します。必要に応じて現地確認も行います。</p>
+            </div>
+          </div>
+
+          <div class="flow-step fade-in delay-2">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>補修設計への適合性確認・技術支援</h3>
+              <p>損傷内容・劣化程度をもとに、効果的なメンテナンス工法の選定・補修設計への技術的助言を行います。費用対効果の検討もサポートします。</p>
+            </div>
+          </div>
+
+          <div class="flow-step fade-in delay-3">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>維持管理計画への反映支援</h3>
+              <p>点検・補修データを活用した中長期維持管理計画の策定を支援します。予防保全的なアプローチで、ライフサイクルコストの低減を目指します。</p>
+            </div>
+          </div>
+
+          <div class="flow-step fade-in delay-4">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <h3>新技術活用の技術提案</h3>
+              <p>ドローン点検・AI画像解析・3Dスキャンなど、業務の効率化・省力化に資する新技術の活用方針について技術的な提案を行います。発注者への説明資料作成にも対応します。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       会社概要
+  =========================== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">COMPANY</span>
+        <h2 class="section-title">会社概要</h2>
+      </div>
+      <div class="about-grid">
+        <div class="fade-in">
+          <table class="about-table">
+            <tr>
+              <th>会社名</th>
+              <td>倉爽合同会社</td>
+            </tr>
+            <tr>
+              <th>所在地</th>
+              <td>岡山県岡山市南区</td>
+            </tr>
+            <tr>
+              <th>事業内容</th>
+              <td>橋梁メンテナンスに関する技術支援<br>（点検・調査支援、補修設計支援、維持管理計画支援、新技術活用支援）</td>
+            </tr>
+            <tr>
+              <th>対応エリア</th>
+              <td>岡山県内を中心に、中国・四国・関西圏にも対応</td>
+            </tr>
+            <tr>
+              <th>対象顧客</th>
+              <td>建設コンサルタント、橋梁調査・設計会社、自治体・公共発注者</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="about-map fade-in delay-1">
+          <div class="map-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p>岡山県岡山市南区</p>
+          </div>
+          <div class="map-info">
+            <p><strong>倉爽合同会社</strong><br>
+            岡山県岡山市南区<br>
+            <br>
+            岡山県内を拠点に、中国・四国・関西圏にも<br>
+            柔軟に対応いたします。<br>
+            まずはお気軽にご相談ください。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       お問い合わせ
+  =========================== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="fade-in">
+          <span class="section-label">CONTACT</span>
+          <h2 class="section-title">お問い合わせ</h2>
+          <p class="section-desc" style="margin-bottom: 24px;">
+            橋梁点検・補修設計・維持管理計画に関するご相談、
+            技術支援の内容・費用についてのお問い合わせは、お気軽にご連絡ください。
+          </p>
+          <div class="contact-info">
+            <h4>メールでのお問い合わせ</h4>
+            <p>まずは現状の課題・対象構造物の概要をお知らせいただけるとスムーズです。</p>
+            <p>ご返信は通常2〜3営業日以内に行います。</p>
+            <a href="mailto:info@kurasou.co.jp" class="contact-email-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              メールで問い合わせる
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form fade-in delay-2">
+          <div class="form-group">
+            <label>お名前・会社名 <span class="req">*</span></label>
+            <input type="text" placeholder="例：○○建設コンサルタント株式会社　山田様">
+          </div>
+          <div class="form-group">
+            <label>メールアドレス <span class="req">*</span></label>
+            <input type="email" placeholder="example@company.co.jp">
+          </div>
+          <div class="form-group">
+            <label>お問い合わせ種別</label>
+            <select>
+              <option value="">選択してください</option>
+              <option>橋梁点検・調査支援について</option>
+              <option>補修設計支援について</option>
+              <option>維持管理計画支援について</option>
+              <option>新技術活用支援について</option>
+              <option>その他・一般的なご相談</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>お問い合わせ内容</label>
+            <textarea placeholder="対象構造物の概要・課題・ご相談内容などをお書きください"></textarea>
+          </div>
+          <button type="button" class="form-submit" onclick="alert('このフォームはデモ表示です。\nメールにてお問い合わせください。')">
+            送信する（デモ）
+          </button>
+          <p class="form-note">
+            ※このフォームはデモ表示です。実際のお問い合わせはメールにてお願いします。<br>
+            入力内容は第三者に提供いたしません。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       フッター
+  =========================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo-main">倉爽合同会社</div>
+          <div class="footer-logo-sub">KURASOU LLC. — BRIDGE MAINTENANCE SUPPORT</div>
+        </div>
+        <nav class="footer-nav">
+          <a href="#services">技術支援サービス</a>
+          <a href="#strengths">特徴</a>
+          <a href="#coverage">対応分野</a>
+          <a href="#flow">業務の流れ</a>
+          <a href="#about">会社概要</a>
+          <a href="#contact">お問い合わせ</a>
+        </nav>
+      </div>
+      <div class="footer-copy">
+        &copy; 2024 倉爽合同会社 All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===========================
+       JavaScript
+  =========================== -->
+  <script>
+    // スクロール時ヘッダー影
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // ハンバーガーメニュー
+    const btn = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+      const open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+    });
+
+    // メニュー内リンクを押したら閉じる
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => { menu.style.display = 'none'; });
+    });
+
+    // スクロールアニメーション (IntersectionObserver)
+    const fades = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fades.forEach(el => observer.observe(el));
+
+    // ヒーローの要素は即時表示
+    document.querySelectorAll('#hero .fade-in').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+    });
+  </script>
 </body>
 </html>
